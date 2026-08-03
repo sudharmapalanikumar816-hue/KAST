@@ -1,0 +1,361 @@
+:root {
+  /* Professional Pastel Palette */
+  --bg-light: #f1f5f9;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #ffffff;
+  
+  --border-subtle: #e2e8f0;
+  --border-pastel: #cbd5e1;
+  --border-pastel-glow: #818cf8;
+  
+  /* Primary Pastel Accents */
+  --primary: #4f46e5;
+  --primary-light: #eef2ff;
+  --primary-hover: #4338ca;
+  --primary-glow: rgba(79, 70, 229, 0.25);
+  
+  /* Soft Pastel Tones */
+  --pastel-lavender: #e0e7ff;
+  --pastel-lavender-text: #3730a3;
+  
+  --pastel-mint: #d1fae5;
+  --pastel-mint-text: #065f46;
+  
+  --pastel-peach: #fef3c7;
+  --pastel-peach-text: #92400e;
+  
+  --pastel-rose: #ffe4e6;
+  --pastel-rose-text: #9f1239;
+  
+  --pastel-sky: #e0f2fe;
+  --pastel-sky-text: #075985;
+  
+  /* High-Contrast Crisp Typography */
+  --text-main: #0f172a;
+  --text-body: #1e293b;
+  --text-muted: #475569;
+  --text-light: #64748b;
+
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-light);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(199, 210, 254, 0.45) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(254, 205, 211, 0.4) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(186, 230, 253, 0.4) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+/* Glassmorphism Pastel Card Utility */
+.kast-card {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 18px;
+  padding: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 25px -5px rgba(148, 163, 184, 0.25), 0 8px 10px -6px rgba(148, 163, 184, 0.1);
+}
+
+.kast-card:hover {
+  border-color: #818cf8;
+  box-shadow: 0 16px 36px -4px rgba(99, 102, 241, 0.2);
+  transform: translateY(-2px);
+}
+
+/* High Contrast Gradient Pastel Text */
+.gradient-text {
+  background: linear-gradient(135deg, #3730a3 0%, #6b21a8 50%, #1e40af 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-gold {
+  background: linear-gradient(135deg, #d97706 0%, #92400e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Buttons */
+.kast-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.kast-btn-primary {
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.35);
+}
+
+.kast-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(79, 70, 229, 0.45);
+}
+
+.kast-btn-secondary {
+  background: #ffffff;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 2px 6px rgba(148, 163, 184, 0.15);
+}
+
+.kast-btn-secondary:hover {
+  background: #eef2ff;
+  border-color: #818cf8;
+  color: #3730a3 !important;
+}
+
+.kast-btn-ai {
+  background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(219, 39, 119, 0.3);
+}
+
+.kast-btn-ai:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(219, 39, 119, 0.45);
+}
+
+/* Form Inputs */
+.kast-input, .kast-select, .kast-textarea {
+  width: 100%;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: #0f172a;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.kast-input:focus, .kast-select:focus, .kast-textarea:focus {
+  background: #ffffff;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.kast-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Status Badges - High Contrast Pastel */
+.kast-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.kast-badge-live {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.kast-badge-warning {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.kast-badge-danger {
+  background: #ffe4e6;
+  color: #9f1239;
+  border: 1px solid #fecdd3;
+}
+
+.kast-badge-primary {
+  background: #e0e7ff;
+  color: #3730a3;
+  border: 1px solid #c7d2fe;
+}
+
+/* Layout container */
+.kast-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 20px 60px 20px;
+  width: 100%;
+}
+
+/* Responsive Table Container */
+.kast-table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 12px;
+  border-radius: 12px;
+}
+
+.kast-table-container table {
+  min-width: 600px;
+}
+
+/* Responsive CSS Grid Utilities */
+.kast-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.kast-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.kast-grid-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+.kast-grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+.pulse-animation {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+/* Mobile Responsiveness & Breakpoints */
+@media (max-width: 992px) {
+  .kast-grid-5 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .desktop-user-actions {
+    display: none !important;
+  }
+
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+
+  .kast-container {
+    padding: 16px 14px 40px 14px;
+  }
+
+  .kast-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  /* Grid Fallbacks on Mobile */
+  .kast-grid-2, 
+  .kast-grid-3, 
+  .kast-grid-5 {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .kast-grid-auto {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+    gap: 14px !important;
+  }
+
+  /* Scale inputs for mobile to prevent auto-zoom on iOS */
+  .kast-input, .kast-select, .kast-textarea {
+    font-size: 16px !important;
+    padding: 10px 14px;
+  }
+
+  .kast-btn {
+    font-size: 0.85rem;
+    padding: 9px 14px;
+  }
+
+  /* Modals on mobile */
+  .kast-modal-content {
+    width: 95% !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    padding: 16px !important;
+  }
+
+  h1 {
+    font-size: 1.4rem !important;
+  }
+
+  h2 {
+    font-size: 1.2rem !important;
+  }
+
+  h3 {
+    font-size: 1.05rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .kast-container {
+    padding: 12px 10px 30px 10px;
+  }
+
+  .kast-card {
+    padding: 14px;
+  }
+
+  .kast-grid-5 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
