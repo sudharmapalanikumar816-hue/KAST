@@ -187,7 +187,7 @@ router.get('/presenters', authenticateToken, async (req, res) => {
        WHERE pr.scheduled_date >= ?
        GROUP BY pr.id
        ORDER BY pr.scheduled_date ASC LIMIT 30`,
-      [tomorrowStr]
+      [todayStr]
     );
 
     const [defaultReviewers] = await pool.query("SELECT name FROM users WHERE role IN ('senior_reviewer', 'program_owner') ORDER BY id ASC LIMIT 1");
