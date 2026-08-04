@@ -18,7 +18,7 @@ function getTodayString(offsetDays = 0) {
 router.get('/today', authenticateToken, async (req, res) => {
   try {
     await autoAdvanceRotation();
-    const today = getTodayString(1); // Starting from tomorrow (2026-08-04)
+    const today = getTodayString();
     let [sessions] = await pool.query(
       `SELECT s.*, 
               p.name as presenter_name, p.email as presenter_email, p.department as presenter_dept,

@@ -10,13 +10,49 @@ const dbConfig = {
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'kast_db',
   waitForConnections: true,
-  connectionLimit: 10,
+  connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT || '1'),
   queueLimit: 0,
+  idleTimeout: 10000,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0,
   dateStrings: true,
   ...(process.env.DB_SSL === 'true' ? { ssl: { rejectUnauthorized: false } } : {})
 };
 
-const pool = mysql.createPool(dbConfig);
+const rawPool = mysql.createPool(dbConfig);
+
+const pool = {
+  async query(sql, params) {
+    let attempts = 0;
+    while (attempts < 5) {
+      try {
+        return await rawPool.query(sql, params);
+      } catch (err) {
+        if (err.code === 'ER_TOO_MANY_USER_CONNECTIONS' && attempts < 4) {
+          attempts++;
+          await new Promise(r => setTimeout(r, 600 * attempts));
+        } else {
+          throw err;
+        }
+      }
+    }
+  },
+  async getConnection() {
+    let attempts = 0;
+    while (attempts < 5) {
+      try {
+        return await rawPool.getConnection();
+      } catch (err) {
+        if (err.code === 'ER_TOO_MANY_USER_CONNECTIONS' && attempts < 4) {
+          attempts++;
+          await new Promise(r => setTimeout(r, 600 * attempts));
+        } else {
+          throw err;
+        }
+      }
+    }
+  }
+};
 
 async function initDB() {
   try {
