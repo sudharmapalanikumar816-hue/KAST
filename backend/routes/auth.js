@@ -16,18 +16,23 @@ router.post('/login', [
     return res.status(400).json({ success: false, errors: errors.array() });
   }
 
-  const { email, password } = req.body;
+    const trimmedEmail = email.trim().toLowerCase();
+    const [users] = await pool.query(
+      'SELECT * FROM users WHERE LOWER(email) = ? AND (is_active = TRUE OR is_active = 1 OR is_active IS NULL)', 
+      [trimmedEmail]
+    );
 
-  try {
-    const [users] = await pool.query('SELECT * FROM users WHERE email = ? AND is_active = TRUE', [email]);
     if (users.length === 0) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials or account inactive.' });
+      return res.status(401).json({ 
+        success: false, 
+        message: 'Invalid credentials or account does not exist. Please check your email for typos (e.g. @kambaa.in).' 
+      });
     }
 
     const user = users[0];
     const match = await bcrypt.compare(password, user.password_hash);
     if (!match) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials.' });
+      return res.status(401).json({ success: false, message: 'Invalid password. Please try again.' });
     }
 
     const token = jwt.sign(
@@ -52,7 +57,11 @@ router.post('/login', [
     });
   } catch (err) {
     console.error('Login error:', err);
-    res.status(500).json({ success: false, message: 'Server error during login.' });
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error during login.', 
+      error: err.message 
+    });
   }
 });
 
