@@ -5,10 +5,12 @@ const { authenticateToken, requireRole } = require('../middleware/auth');
 
 function getTodayString(offsetDays = 0) {
   const d = new Date();
-  d.setDate(d.getDate() + offsetDays);
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
+  const istOffset = 5.5 * 60 * 60 * 1000;
+  const istDate = new Date(d.getTime() + (d.getTimezoneOffset() * 60000) + istOffset);
+  istDate.setDate(istDate.getDate() + offsetDays);
+  const year = istDate.getFullYear();
+  const month = String(istDate.getMonth() + 1).padStart(2, '0');
+  const day = String(istDate.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
 
