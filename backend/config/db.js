@@ -20,15 +20,20 @@ const pool = mysql.createPool(dbConfig);
 
 async function initDB() {
   try {
-    const rootConn = await mysql.createConnection({
-      host: dbConfig.host,
-      port: dbConfig.port,
-      user: dbConfig.user,
-      password: dbConfig.password
-    });
+    try {
+      const rootConn = await mysql.createConnection({
+        host: dbConfig.host,
+        port: dbConfig.port,
+        user: dbConfig.user,
+        password: dbConfig.password
+      });
 
-    await rootConn.query(`CREATE DATABASE IF NOT EXISTS \`${dbConfig.database}\`;`);
-    await rootConn.end();
+      await rootConn.query(`CREATE DATABASE IF NOT EXISTS \`${dbConfig.database}\`;`);
+      await rootConn.end();
+    } catch (dbCreateErr) {
+      // Managed databases like freeDB already have the database created and restrict CREATE DATABASE privileges.
+      console.log('Skipped database creation check (managed DB host).');
+    }
 
     const schemaPath = path.join(__dirname, 'schema.sql');
     if (fs.existsSync(schemaPath)) {

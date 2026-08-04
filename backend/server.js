@@ -23,11 +23,17 @@ const impactRoutes = require('./routes/impact');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000').split(',').map((origin) => origin.trim());
+const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000,http://localhost:5173').split(',').map((origin) => origin.trim());
 
 // Middleware
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes('*') || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      return callback(null, origin);
+    }
+    return callback(null, origin);
+  },
   credentials: true
 }));
 app.use(express.json());
@@ -54,6 +60,16 @@ app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/impact', impactRoutes);
 
+// Root endpoint for public access confirmation
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'KAST Backend is running. Use /api/* routes for API access.',
+    apiBase: '/api',
+    health: '/api/health'
+  });
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({
@@ -73,16 +89,23 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Initialize DB and start server
-async function startServer() {
+async function initializeBackend() {
   await initDB();
-  startScheduler();
+  if (!process.env.VERCEL) {
+    startScheduler();
+  }
+}
 
+initializeBackend().catch((err) => {
+  console.error('Backend initialization failed:', err);
+});
+
+module.exports = app;
+
+if (require.main === module) {
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`====================================================`);
     console.log(`🚀 KAST Backend REST API active on http://localhost:${PORT}`);
     console.log(`====================================================`);
   });
 }
-
-startServer();
