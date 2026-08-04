@@ -24,13 +24,15 @@ const rawPool = mysql.createPool(dbConfig);
 const pool = {
   async query(sql, params) {
     let attempts = 0;
-    while (attempts < 5) {
+    while (attempts < 10) {
       try {
         return await rawPool.query(sql, params);
       } catch (err) {
-        if (err.code === 'ER_TOO_MANY_USER_CONNECTIONS' && attempts < 4) {
+        const isConnErr = err.code === 'ER_TOO_MANY_USER_CONNECTIONS' || err.errno === 1203 || (err.message && err.message.includes('max_user_connections'));
+        if (isConnErr && attempts < 9) {
           attempts++;
-          await new Promise(r => setTimeout(r, 600 * attempts));
+          const delay = 800 + Math.floor(Math.random() * 1200);
+          await new Promise(r => setTimeout(r, delay));
         } else {
           throw err;
         }
@@ -39,13 +41,15 @@ const pool = {
   },
   async getConnection() {
     let attempts = 0;
-    while (attempts < 5) {
+    while (attempts < 10) {
       try {
         return await rawPool.getConnection();
       } catch (err) {
-        if (err.code === 'ER_TOO_MANY_USER_CONNECTIONS' && attempts < 4) {
+        const isConnErr = err.code === 'ER_TOO_MANY_USER_CONNECTIONS' || err.errno === 1203 || (err.message && err.message.includes('max_user_connections'));
+        if (isConnErr && attempts < 9) {
           attempts++;
-          await new Promise(r => setTimeout(r, 600 * attempts));
+          const delay = 800 + Math.floor(Math.random() * 1200);
+          await new Promise(r => setTimeout(r, delay));
         } else {
           throw err;
         }
